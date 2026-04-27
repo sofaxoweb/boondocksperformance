@@ -68,7 +68,7 @@
       color: var(--black);
       font-family: 'Bebas Neue', sans-serif;
       font-size: 22px;
-      padding: 6px 10px;
+      padding: 0px 4px;
       letter-spacing: 1px;
       clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))
     }
@@ -1392,14 +1392,50 @@
       }
     }
   </style>
+  <style>
+    .menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 26px;
+  cursor: pointer;
+}
+
+/* Mobile menu */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--black);
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+}
+  </style>
 </head>
 
 <body>
 
   <nav>
     <a class="nav-logo" href="#home">
-      <div class="logo-box">BOONDOCKS</div>
+      <div class="logo-box">
+        <img src="https://scontent.cdninstagram.com/v/t51.82787-19/606666536_18542257039049967_6526813171981205451_n.jpg?stp=cp0_dst-jpg_s110x80_tt6&_nc_cat=108&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDI0LkMzIn0%3D&_nc_ohc=KXw9Qz4ZeycQ7kNvwEABEKD&_nc_oc=AdrR6bv8qoDZYGgaoB9wlTeVBz-tNQt-AzggtAbONRWwxpDgBIdU0i2PhL41Fg0k1z8&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=OMkyqBFzwPr3iy3aBivfjg&_nc_ss=7baaf&oh=00_Af0k-ZwIemGKRc-gcSSqQLTbFrv7XgPAFB4QiFqELNqEDA&oe=69F52991" alt="">
+      </div>
     </a>
+    <button class="menu-toggle">☰</button>
     <ul class="nav-links">
       <li><a href="#home" class="active">Home</a></li>
       <li><a href="#about">About</a></li>
@@ -1906,7 +1942,14 @@
     <span class="footer-copy">© 2025 Boondocks Performance. All rights reserved.</span>
     <span class="footer-tagline">Repair Well. Perform Better.</span>
   </div>
+<script>
+  const toggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
 
+  toggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+</script>
 </body>
 
 </html>
