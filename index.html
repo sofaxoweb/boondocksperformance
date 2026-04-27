@@ -121,7 +121,7 @@
     section {
       min-height: 100vh;
       padding-top: 70px;
-      display: none
+      display: block
     }
 
     section.active {
@@ -1384,19 +1384,19 @@
 <body>
 
   <nav>
-    <div class="nav-logo" onclick="showPage('home')">
+    <a class="nav-logo" href="#home">
       <div class="logo-box">BOONDOCKS</div>
-    </div>
+    </a>
     <ul class="nav-links">
-      <li><a href="#" class="active" onclick="showPage('home');return false">Home</a></li>
-      <li><a href="#" onclick="showPage('about');return false">About</a></li>
-      <li><a href="#" onclick="showPage('services');return false">Services</a></li>
-      <li><a href="#" onclick="showPage('detailing');return false">Detailing</a></li>
-      <li><a href="#" onclick="showPage('performance');return false">Performance</a></li>
-      <li><a href="#" onclick="showPage('gallery');return false">Gallery</a></li>
-      <li><a href="#" onclick="showPage('contact');return false">Contact</a></li>
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#detailing">Detailing</a></li>
+      <li><a href="#performance">Performance</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="nav-cta" onclick="showPage('contact')">Join Now</button>
+    <a class="nav-cta" href="#contact">Join Now</a>
   </nav>
 
   <!-- ====== HOME ====== -->
@@ -1408,8 +1408,8 @@
         <h1 class="hero-title">UNLEASH<br><span>YOUR VEHICLE'S</span><br>POTENTIAL</h1>
         <p class="hero-sub">Automotive repair, performance upgrades, and detailing services. Improving vehicle reliability, enhancing engine performance, and restoring vehicle appearance.</p>
         <div class="hero-buttons">
-          <button class="btn-primary" onclick="showPage('services')">Explore Services</button>
-          <button class="btn-outline" onclick="showPage('contact')">Free Quote</button>
+          <a class="btn-primary" href="#services">Explore Services</a>
+          <a class="btn-outline" href="#contact">Free Quote</a>
         </div>
       </div>
       <div class="hero-stats">
@@ -1461,7 +1461,7 @@
         <h2 class="about-heading">BUILT FOR<br><span>VEHICLES.</span><br>OPEN TO<br>EVERYONE.</h2>
         <p class="about-body">Boondocks Performance provides automotive repair, performance upgrades, and detailing services. The business focuses on improving vehicle reliability, enhancing engine performance, and restoring vehicle appearance using proper tools, diagnostic methods, and detailing techniques.</p>
         <p class="about-body">What services are offered? The core services include vehicle diagnostics, mechanical repair, performance upgrades, and interior/exterior detailing. Each service is carried out using industry-standard tools and processes to ensure consistent results.</p>
-        <button class="btn-primary" onclick="showPage('services')" style="margin-top:1rem">Explore Services</button>
+        <a class="btn-primary" href="#services" style="margin-top:1rem; display: inline-block; text-align:center;">Explore Services</a>
       </div>
       <div class="about-visual">
         <div class="about-img-placeholder"></div>
@@ -1821,31 +1821,31 @@
     <div class="footer-col">
       <h4>Navigate</h4>
       <ul>
-        <li><a href="#" onclick="showPage('home');return false">Home</a></li>
-        <li><a href="#" onclick="showPage('about');return false">About Us</a></li>
-        <li><a href="#" onclick="showPage('services');return false">Services</a></li>
-        <li><a href="#" onclick="showPage('detailing');return false">Detailing</a></li>
-        <li><a href="#" onclick="showPage('performance');return false">Performance</a></li>
-        <li><a href="#" onclick="showPage('gallery');return false">Gallery</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#detailing">Detailing</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#gallery">Gallery</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Services</h4>
       <ul>
-        <li><a href="#" onclick="showPage('services');return false">Performance Upgrades</a></li>
-        <li><a href="#" onclick="showPage('services');return false">Repair Services</a></li>
-        <li><a href="#" onclick="showPage('detailing');return false">Detailing</a></li>
-        <li><a href="#" onclick="showPage('performance');return false">ECU Tuning</a></li>
-        <li><a href="#" onclick="showPage('performance');return false">Exhaust Systems</a></li>
+        <li><a href="#services">Performance Upgrades</a></li>
+        <li><a href="#services">Repair Services</a></li>
+        <li><a href="#detailing">Detailing</a></li>
+        <li><a href="#performance">ECU Tuning</a></li>
+        <li><a href="#performance">Exhaust Systems</a></li>
       </ul>
-    </div
+    </div>
     <div class="footer-col">
       <h4>Contact</h4>
       <ul class="contact_footer">
-        <li><a href="#">info@boondocksperformance.com</a></li>
+        <li><a href="mailto:info@boondocksperformance.com">info@boondocksperformance.com</a></li>
         <li><a href="#">@boondocksperformance</a></li>
-        <li><a href="#">Mon–Fri: 5am–10pm</a></li>
-        <li><a href="#">Sat–Sun: 7am–6pm</a></li>
+        <li>Mon–Fri: 5am–10pm</li>
+        <li>Sat–Sun: 7am–6pm</li>
       </ul>
     </div>
   </footer>
@@ -1854,17 +1854,6 @@
     <span class="footer-tagline">Repair Well. Perform Better.</span>
   </div>
 
-  <script>
-    function showPage(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      const pages = ['home', 'about', 'services', 'detailing', 'performance', 'gallery', 'contact'];
-      const idx = pages.indexOf(id);
-      if (idx >= 0) document.querySelectorAll('.nav-links a')[idx].classList.add('active');
-    }
-  </script>
 </body>
 
 </html>
