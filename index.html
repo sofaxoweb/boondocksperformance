@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boondocks Performance</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --green: #7FBA00;
+      --green-bright: #9DDB00;
+      --green-dark: #5a8500;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --dark2: #1a1a1a;
+      --dark3: #222222;
+      --white: #f5f5f5;
+      --gray: #888;
+      --light-gray: #cccccc;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.95);
+      border-bottom: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 70px;
+      backdrop-filter: blur(10px)
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer
+    }
+
+    .logo-box {
+      background: var(--green);
+      color: var(--black);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      padding: 6px 10px;
+      letter-spacing: 1px;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none
+    }
+
+    .nav-links a {
+      color: var(--light-gray);
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color .2s;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--green);
+      border-bottom-color: var(--green)
+    }
+
+    .nav-cta {
+      background: var(--green);
+      color: var(--black);
+      padding: 10px 22px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+      transition: background .2s
+    }
+
+    .nav-cta:hover {
+      background: var(--green-bright)
+    }
+
+    /* SECTIONS */
+    section {
+      min-height: 100vh;
+      padding-top: 70px;
+      display: none
+    }
+
+    section.active {
+      display: block
+    }
+
+    /* =========== HOME =========== */
+    #home {
+      padding-top: 90px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      background: var(--black)
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(127, 186, 0, 0.08) 0%, transparent 50%),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(127, 186, 0, 0.03) 80px, rgba(127, 186, 0, 0.03) 81px),
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(127, 186, 0, 0.03) 80px, rgba(127, 186, 0, 0.03) 81px)
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 5rem;
+      max-width: 1200px
+    }
+
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--green)
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(80px, 10vw, 140px);
+      line-height: 0.92;
+      color: var(--white);
+      margin-bottom: 1rem
+    }
+
+    .hero-title span {
+      color: var(--green)
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--light-gray);
+      font-weight: 300;
+      max-width: 500px;
+      line-height: 1.6;
+      margin-bottom: 3rem
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: var(--black);
+      padding: 16px 36px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: all .2s
+    }
+
+    .btn-primary:hover {
+      background: var(--green-bright);
+      transform: translateY(-2px)
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 16px 36px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: all .2s
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green)
+    }
+
+    .hero-stats {
+      position: absolute;
+      right: 5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 400px;
+      height: 300px;
+      background-image: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7');
+      background-size: cover;
+      background-position: center;
+      z-index: 2;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .stat-item {
+      text-align: right;
+      border-right: 3px solid var(--green);
+      padding-right: 20px
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      line-height: 1;
+      color: var(--green)
+    }
+
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gray)
+    }
+
+    .hero-ticker {
+      background: var(--green);
+      padding: 14px 5rem;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .ticker-wrapper {
+      display: flex;
+      gap: 4rem;
+      animation: ticker 20s linear infinite;
+    }
+
+    .ticker-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 16px
+    }
+
+    .ticker-item::after {
+      content: '◆';
+      font-size: 8px
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .hero-ticker {
+      margin-top: 30px;
+      /* animation: ticker 20s linear infinite; */
+    }
+
+    /* Feature strip */
+    .feature-strip {
+      background: var(--dark2);
+      padding: 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px
+    }
+
+    .feature-card {
+      background: var(--dark3);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background .2s
+    }
+
+    .feature-card:hover {
+      background: #1e1e1e
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--green)
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 1.5rem
+    }
+
+    .feature-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 1px;
+      color: var(--white);
+      margin-bottom: 0.5rem
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7
+    }
+
+    .feature-num {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 60px;
+      color: rgba(127, 186, 0, 0.08);
+      line-height: 1
+    }
+
+    /* =========== ABOUT =========== */
+    #about {
+      background: var(--black)
+    }
+
+    .about-hero {
+      background: var(--dark2);
+      padding: 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      min-height: 80vh
+    }
+
+    .about-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem
+    }
+
+    .about-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(50px, 6vw, 80px);
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 2rem
+    }
+
+    .about-heading span {
+      color: var(--green)
+    }
+
+    .about-body {
+      font-size: 15px;
+      color: var(--light-gray);
+      line-height: 1.8;
+      margin-bottom: 1.5rem
+    }
+
+    .about-visual {
+      position: relative
+    }
+
+    .about-img-placeholder {
+      background: var(--dark3);
+      width: 100%;
+      height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--dark3);
+      position: relative;
+      overflow: hidden
+    }
+
+    .about-img-placeholder::before {
+      content: 'BOONDOCKS\APERFORMANCE';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 60px;
+      color: rgba(127, 186, 0, 0.1);
+      text-align: center;
+      line-height: 1.2;
+      white-space: pre
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: var(--green);
+      color: var(--black);
+      padding: 20px 25px;
+      font-family: 'Bebas Neue', sans-serif;
+      text-align: center
+    }
+
+    .about-badge-num {
+      font-size: 42px;
+      line-height: 1
+    }
+
+    .about-badge-text {
+      font-size: 12px;
+      letter-spacing: 2px
+    }
+
+    .values-section {
+      padding: 5rem;
+      background: var(--black)
+    }
+
+    .section-header {
+      margin-bottom: 4rem;
+      text-align: center
+    }
+
+    .section-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 70px);
+      color: var(--white)
+    }
+
+    .section-header h2 span {
+      color: var(--green)
+    }
+
+    .section-header p {
+      color: var(--gray);
+      font-size: 15px;
+      max-width: 500px;
+      margin: 1rem auto 0
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--dark3)
+    }
+
+    .value-box {
+      background: var(--dark2);
+      padding: 2.5rem 2rem;
+      text-align: center
+    }
+
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(127, 186, 0, 0.1);
+      border: 1px solid var(--green-dark);
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 24px
+    }
+
+    .value-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: var(--white);
+      margin-bottom: 0.5rem
+    }
+
+    .value-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6
+    }
+
+    /* =========== SERVICES =========== */
+    #services {
+      background: var(--black)
+    }
+
+    .services-hero {
+      padding: 5rem;
+      background: var(--dark2);
+      text-align: center;
+      padding-bottom: 3rem
+    }
+
+    .services-grid {
+      padding: 3rem 5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3px;
+      background: var(--dark3)
+    }
+
+    .service-card {
+      background: var(--dark2);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .service-card:hover {
+      background: var(--dark3)
+    }
+
+    .service-card:hover .service-arrow {
+      transform: translateX(6px);
+      color: var(--green)
+    }
+
+    .service-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 80px;
+      color: rgba(127, 186, 0, 0.07);
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      line-height: 1
+    }
+
+    .service-cat {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem
+    }
+
+    .service-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: var(--white);
+      margin-bottom: 1rem;
+      line-height: 1
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      max-width: 380px
+    }
+
+    .service-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem
+    }
+
+    .tag {
+      background: rgba(127, 186, 0, 0.1);
+      border: 1px solid var(--green-dark);
+      color: var(--green);
+      font-size: 11px;
+      padding: 4px 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase
+    }
+
+    .service-arrow {
+      font-size: 20px;
+      color: var(--gray);
+      transition: all .2s;
+      display: inline-block
+    }
+
+    .service-featured {
+      border-top: 3px solid var(--green)
+    }
+
+    /* PRICING */
+    .pricing-section {
+      padding: 5rem;
+      background: var(--dark)
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--dark3);
+      margin-top: 3rem
+    }
+
+    .price-card {
+      background: var(--dark2);
+      padding: 2.5rem;
+      text-align: center
+    }
+
+    .price-card.featured {
+      background: var(--green);
+      color: var(--black)
+    }
+
+    .price-plan {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      color: var(--gray)
+    }
+
+    .price-card.featured .price-plan {
+      color: rgba(0, 0, 0, 0.6)
+    }
+
+    .price-amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 70px;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 0.5rem
+    }
+
+    .price-card.featured .price-amount {
+      color: var(--black)
+    }
+
+    .price-period {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 2rem
+    }
+
+    .price-card.featured .price-period {
+      color: rgba(0, 0, 0, 0.6)
+    }
+
+    .price-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 2rem
+    }
+
+    .price-features li {
+      font-size: 13px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--light-gray);
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .price-card.featured .price-features li {
+      color: rgba(0, 0, 0, 0.8);
+      border-bottom-color: rgba(0, 0, 0, 0.1)
+    }
+
+    .price-features li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      font-size: 12px;
+      flex-shrink: 0
+    }
+
+    .price-card.featured .price-features li::before {
+      color: var(--black)
+    }
+
+    .btn-price {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      background: rgba(127, 186, 0, 0.15);
+      color: var(--green);
+      border: 1px solid var(--green-dark);
+      transition: all .2s
+    }
+
+    .price-card.featured .btn-price {
+      background: var(--black);
+      color: var(--green)
+    }
+
+    .btn-price:hover {
+      background: var(--green);
+      color: var(--black)
+    }
+
+    /* =========== PROGRAMS =========== */
+    #programs {
+      background: var(--black)
+    }
+
+    .programs-header {
+      padding: 5rem 5rem 3rem;
+      background: var(--dark2)
+    }
+
+    .programs-grid {
+      padding: 3rem 5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem
+    }
+
+    .program-card {
+      background: var(--dark2);
+      border: 1px solid var(--dark3);
+      overflow: hidden;
+      transition: transform .2s, border-color .2s;
+      cursor: pointer
+    }
+
+    .program-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--green-dark)
+    }
+
+    .program-img {
+      height: 200px;
+      background: var(--dark3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .program-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .program-img-icon {
+      font-size: 60px;
+      opacity: 0.6
+    }
+
+    .program-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--dark2), transparent)
+    }
+
+    .program-level {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--green);
+      color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      font-weight: 700
+    }
+
+    .program-body {
+      padding: 1.5rem
+    }
+
+    .program-duration {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.5rem
+    }
+
+    .program-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      line-height: 1
+    }
+
+    .program-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 1rem
+    }
+
+    .program-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--gray);
+      border-top: 1px solid var(--dark3);
+      padding-top: 1rem
+    }
+
+    .program-spots {
+      color: var(--green);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px
+    }
+
+    /* =========== COACHES =========== */
+    #coaches {
+      background: var(--black)
+    }
+
+    .coaches-hero {
+      padding: 5rem;
+      background: var(--dark2)
+    }
+
+    .coaches-grid {
+      padding: 3rem 5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--dark3)
+    }
+
+    .coach-card {
+      background: var(--dark2);
+      overflow: hidden
+    }
+
+    .coach-img {
+      height: 280px;
+      background: var(--dark3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative
+    }
+
+    .coach-initials {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 80px;
+      color: rgba(127, 186, 0, 0.2)
+    }
+
+    .coach-info {
+      padding: 2rem
+    }
+
+    .coach-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px;
+      color: var(--white);
+      margin-bottom: 0.2rem
+    }
+
+    .coach-role {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem
+    }
+
+    .coach-bio {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 1.5rem
+    }
+
+    .coach-specialties {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .spec-tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      background: rgba(127, 186, 0, 0.08);
+      border: 1px solid var(--green-dark);
+      color: var(--green);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase
+    }
+
+    .certs-section {
+      padding: 4rem 5rem;
+      background: var(--dark)
+    }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--dark3);
+      margin-top: 3rem
+    }
+
+    .cert-box {
+      background: var(--dark2);
+      padding: 2rem;
+      text-align: center
+    }
+
+    .cert-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--green);
+      line-height: 1
+    }
+
+    .cert-label {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase
+    }
+
+    /* =========== CONTACT =========== */
+    #contact {
+      background: var(--black)
+    }
+
+    .contact-hero {
+      padding: 5rem;
+      background: var(--dark2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      min-height: 80vh
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .form-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gray)
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      background: var(--dark3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      padding: 14px 16px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s;
+      width: 100%
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--green)
+    }
+
+    .form-select {
+      appearance: none;
+      cursor: pointer
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem
+    }
+
+    .info-item {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start
+    }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(127, 186, 0, 0.1);
+      border: 1px solid var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0
+    }
+
+    .info-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 4px
+    }
+
+    .info-value {
+      font-size: 15px;
+      color: var(--white)
+    }
+
+    .info-sub {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 2px
+    }
+
+    .social-strip {
+      padding: 4rem 5rem;
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap
+    }
+
+    .social-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: var(--white)
+    }
+
+    .social-heading span {
+      color: var(--green)
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem
+    }
+
+    .social-btn {
+      background: var(--dark3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      padding: 12px 24px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .social-btn:hover {
+      background: var(--green);
+      color: var(--black);
+      border-color: var(--green)
+    }
+
+    .map-placeholder {
+      background: var(--dark3);
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 2px solid var(--dark2)
+    }
+
+    .map-inner {
+      text-align: center
+    }
+
+    .map-inner p {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: rgba(127, 186, 0, 0.3);
+      letter-spacing: 2px
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark2);
+      border-top: 2px solid var(--green);
+      padding: 3rem 5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem
+    }
+
+    .footer-brand .logo-box {
+      display: inline-block;
+      margin-bottom: 1rem
+    }
+
+    .footer-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.7;
+      max-width: 250px
+    }
+
+    .footer-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1.2rem
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .footer-col ul li a {
+      font-size: 13px;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--green)
+    }
+
+    .footer-bottom {
+      background: var(--dark3);
+      padding: 1.2rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--gray);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 1px
+    }
+
+    .footer-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green-dark)
+    }
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  nav {
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  .nav-links {
+    display: none; /* Hide on mobile, can add hamburger later */
+  }
+
+  .nav-cta {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .hero-content {
+    padding: 0 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(60px, 15vw, 120px);
+  }
+
+  .hero-stats {
+    right: 2rem;
+    width: 250px;
+    height: 200px;
+  }
+
+  .hero-ticker {
+    padding: 10px 2rem;
+  }
+
+  .feature-strip {
+    padding: 3rem 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  .about-hero {
+    padding: 3rem 2rem;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-hero {
+    padding: 3rem 2rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-hero {
+    padding: 3rem 2rem;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .social-strip {
+    padding: 3rem 2rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  footer {
+    padding: 2rem;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom {
+    padding: 1rem 2rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding: 0 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(50px, 18vw, 100px);
+  }
+
+  .hero-stats {
+    display: none; /* Hide stats on very small screens */
+  }
+
+  .feature-strip {
+    padding: 2rem 1rem;
+  }
+
+  .about-hero {
+    padding: 2rem 1rem;
+  }
+
+  .services-hero {
+    padding: 2rem 1rem;
+  }
+
+  .services-grid {
+    padding: 1rem;
+  }
+
+  .contact-hero {
+    padding: 2rem 1rem;
+  }
+
+  .social-strip {
+    padding: 2rem 1rem;
+  }
+
+  footer {
+    padding: 1rem;
+  }
+
+  .footer-bottom {
+    padding: 1rem;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-logo" onclick="showPage('home')">
+      <div class="logo-box">BOONDOCKS</div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" class="active" onclick="showPage('home');return false">Home</a></li>
+      <li><a href="#" onclick="showPage('about');return false">About</a></li>
+      <li><a href="#" onclick="showPage('services');return false">Services</a></li>
+      <li><a href="#" onclick="showPage('detailing');return false">Detailing</a></li>
+      <li><a href="#" onclick="showPage('performance');return false">Performance</a></li>
+      <li><a href="#" onclick="showPage('gallery');return false">Gallery</a></li>
+      <li><a href="#" onclick="showPage('contact');return false">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="showPage('contact')">Join Now</button>
+  </nav>
+
+  <!-- ====== HOME ====== -->
+  <section id="home" class="active">
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-tag">Boondocks Performance — Automotive Excellence</div>
+        <h1 class="hero-title">UNLEASH<br><span>YOUR VEHICLE'S</span><br>POTENTIAL</h1>
+        <p class="hero-sub">Automotive repair, performance upgrades, and detailing services. Improving vehicle reliability, enhancing engine performance, and restoring vehicle appearance.</p>
+        <div class="hero-buttons">
+          <button class="btn-primary" onclick="showPage('services')">Explore Services</button>
+          <button class="btn-outline" onclick="showPage('contact')">Free Quote</button>
+        </div>
+      </div>
+      <div class="hero-stats">
+      </div>
+    </div>
+    <div class="hero-ticker">
+      <div class="ticker-wrapper">
+        <span class="ticker-item">Engine Tuning</span>
+        <span class="ticker-item">Performance Upgrades</span>
+        <span class="ticker-item">Detailing Services</span>
+        <span class="ticker-item">Repair Services</span>
+        <span class="ticker-item">Maintenance</span>
+        <span class="ticker-item">Diagnostics</span>
+        <span class="ticker-item">Engine Tuning</span>
+        <span class="ticker-item">Performance Upgrades</span>
+        <span class="ticker-item">Detailing Services</span>
+        <span class="ticker-item">Repair Services</span>
+        <span class="ticker-item">Maintenance</span>
+        <span class="ticker-item">Diagnostics</span>
+      </div>
+    </div>
+    <div class="feature-strip">
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <div class="feature-title">Engine Performance</div>
+        <div class="feature-desc">Advanced diagnostics and repair services designed to restore and enhance vehicle performance using industry-standard tools.</div>
+        <div class="feature-num">01</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚀</div>
+        <div class="feature-title">Performance Upgrades</div>
+        <div class="feature-desc">Performance modifications and tuning that transform your vehicle's capabilities and efficiency.</div>
+        <div class="feature-num">02</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <div class="feature-title">Professional Detailing</div>
+        <div class="feature-desc">Comprehensive detailing services tailored to your vehicle. From basic cleaning to full restoration and protection.</div>
+        <div class="feature-num">03</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ABOUT ====== -->
+  <section id="about">
+    <div class="about-hero">
+      <div class="about-left">
+        <div class="about-label">Our Story</div>
+        <h2 class="about-heading">BUILT FOR<br><span>VEHICLES.</span><br>OPEN TO<br>EVERYONE.</h2>
+        <p class="about-body">Boondocks Performance provides automotive repair, performance upgrades, and detailing services. The business focuses on improving vehicle reliability, enhancing engine performance, and restoring vehicle appearance using proper tools, diagnostic methods, and detailing techniques.</p>
+        <p class="about-body">What services are offered? The core services include vehicle diagnostics, mechanical repair, performance upgrades, and interior/exterior detailing. Each service is carried out using industry-standard tools and processes to ensure consistent results.</p>
+        <button class="btn-primary" onclick="showPage('services')" style="margin-top:1rem">Explore Services</button>
+      </div>
+      <div class="about-visual">
+        <div class="about-img-placeholder"></div>
+        <div class="about-badge">
+          <div class="about-badge-num">4+</div>
+          <div class="about-badge-text">Years of Excellence</div>
+        </div>
+      </div>
+    </div>
+    <div class="values-section">
+      <div class="section-header">
+        <h2>OUR CORE <span>VALUES</span></h2>
+        <p>The principles that drive everything we do at Boondocks Performance</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-box">
+          <div class="value-icon">�</div>
+          <div class="value-title">Precision</div>
+          <div class="value-desc">We work with accuracy. Every service is an opportunity to exceed expectations.</div>
+        </div>
+        <div class="value-box">
+          <div class="value-icon">🔒</div>
+          <div class="value-title">Trust</div>
+          <div class="value-desc">A service team that ensures reliability and celebrates every successful project.</div>
+        </div>
+        <div class="value-box">
+          <div class="value-icon">�️</div>
+          <div class="value-title">Technology</div>
+          <div class="value-desc">Services built on modern tools, not trends. Real results through proven methods.</div>
+        </div>
+        <div class="value-box">
+          <div class="value-icon">⭐</div>
+          <div class="value-title">Quality</div>
+          <div class="value-desc">We don't settle for good enough. The standard is always top performance.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SERVICES ====== -->
+  <section id="services">
+    <div class="services-hero">
+      <div class="about-label" style="text-align:center">What We Offer</div>
+      <h2
+        style="font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,6vw,80px);color:var(--white);margin-bottom:1rem">
+        SERVICES BUILT TO <span style="color:var(--green)">PERFORM</span></h2>
+      <p style="color:var(--gray);font-size:15px;max-width:500px;margin:0 auto">Every service at Boondocks is designed
+        with one goal in mind: your vehicle's best performance.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card service-featured">
+        <div class="service-number">01</div>
+        <div class="service-cat">Performance Services</div>
+        <div class="service-title">PERFORMANCE<br>SERVICES</div>
+        <div class="service-desc">Performance services improve engine output, airflow, and efficiency. This includes ECU tuning, exhaust upgrades, and intake improvements. Results vary depending on engine type, existing condition, and compatibility of aftermarket components.</div>
+        <div class="service-tags"><span class="tag">ECU Tuning</span><span class="tag">Exhaust</span><span
+            class="tag">Intake</span></div>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">02</div>
+        <div class="service-cat">Repair Services</div>
+        <div class="service-title">REPAIR<br>SERVICES</div>
+        <div class="service-desc">Repair services diagnose and fix mechanical or electrical faults. This includes engine issues, brake systems, suspension components, and general maintenance. Accurate diagnostics are required before repair to avoid unnecessary part replacement.</div>
+        <div class="service-tags"><span class="tag">Diagnostics</span><span class="tag">Mechanical</span><span
+            class="tag">Maintenance</span></div>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">03</div>
+        <div class="service-cat">Detailing Services</div>
+        <div class="service-title">DETAILING<br>SERVICES</div>
+        <div class="service-desc">Detailing services clean, restore, and protect vehicle surfaces. This includes interior cleaning, exterior polishing, and protective coatings. The outcome depends on surface condition and level of detailing selected.</div>
+        <div class="service-tags"><span class="tag">Interior</span><span class="tag">Exterior</span><span
+            class="tag">Protection</span></div>
+        <div class="service-arrow">→</div>
+      </div>
+
+    </div>
+    <div class="pricing-section">
+      <div class="section-header">
+        <h2>SIMPLE <span>PRICING</span></h2>
+        <p>Invest in your performance. No hidden fees, no surprises.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-plan">Basic Service</div>
+          <div class="price-amount">$99</div>
+          <div class="price-period">one-time</div>
+          <ul class="price-features">
+            <li>Full vehicle inspection</li>
+            <li>Oil change</li>
+            <li>Brake check</li>
+            <li>Tire rotation</li>
+          </ul>
+          <button class="btn-price">Get Quote</button>
+        </div>
+        <div class="price-card featured">
+          <div class="price-plan">Standard Service</div>
+          <div class="price-amount">$299</div>
+          <div class="price-period">one-time</div>
+          <ul class="price-features">
+            <li>Everything in Basic</li>
+            <li>Full diagnostics</li>
+            <li>Engine tune-up</li>
+            <li>Basic detailing</li>
+            <li>Performance report</li>
+          </ul>
+          <button class="btn-price">Most Popular</button>
+        </div>
+        <div class="price-card">
+          <div class="price-plan">Premium Service</div>
+          <div class="price-amount">$499</div>
+          <div class="price-period">one-time</div>
+          <ul class="price-features">
+            <li>Everything in Standard</li>
+            <li>Major repairs</li>
+            <li>Performance upgrades</li>
+            <li>Full detailing</li>
+            <li>Express service</li>
+          </ul>
+          <button class="btn-price">Go Pro</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DETAILING ====== -->
+  <section id="detailing">
+    <div class="about-hero">
+      <div class="about-left">
+        <div class="about-label">Detailing Services</div>
+        <h2 class="about-heading">PROFESSIONAL<br><span>DETAILING</span><br>SERVICES</h2>
+        <p class="about-body">What is car detailing? Car detailing is a process of deep cleaning and restoring a vehicle's interior and exterior surfaces. It uses specialized tools, chemicals, and techniques beyond regular washing.</p>
+        <p class="about-body">What is included in interior detailing? Interior detailing includes vacuuming, stain removal, dashboard cleaning, and surface conditioning. Materials such as fabric, leather, and plastic are treated using appropriate cleaning agents.</p>
+        <p class="about-body">What is included in exterior detailing? Exterior detailing includes washing, polishing, paint correction, and protective coating. This improves surface clarity and protects paint from environmental damage.</p>
+        <p class="about-body">How long does detailing take? Time varies depending on vehicle size, condition, and service level. Basic detailing takes a few hours, while full correction and coating require extended time.</p>
+      </div>
+      <div class="about-visual">
+        <div class="about-img-placeholder"></div>
+        <div class="about-badge">
+          <div class="about-badge-num">100%</div>
+          <div class="about-badge-text">Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PERFORMANCE ====== -->
+  <section id="performance">
+    <div class="about-hero">
+      <div class="about-left">
+        <div class="about-label">Performance Upgrades</div>
+        <h2 class="about-heading">PERFORMANCE<br><span>UPGRADES</span><br>& TUNING</h2>
+        <p class="about-body">What are performance upgrades? Performance upgrades are modifications that improve engine power, acceleration, and efficiency. These changes involve mechanical components and electronic tuning systems.</p>
+        <p class="about-body">What is ECU tuning? ECU tuning adjusts engine control parameters such as fuel injection and ignition timing. This improves engine response and efficiency when done correctly within safe limits.</p>
+        <p class="about-body">What are common performance parts? Common parts include exhaust systems, air intake systems, turbo components, and fuel system upgrades. Compatibility depends on vehicle model and engine configuration.</p>
+        <p class="about-body">Are performance upgrades safe? Upgrades are safe when installed correctly and matched to the engine's capacity. Incorrect tuning or incompatible parts can reduce reliability.</p>
+      </div>
+      <div class="about-visual">
+        <div class="about-img-placeholder"></div>
+        <div class="about-badge">
+          <div class="about-badge-num">MAX</div>
+          <div class="about-badge-text">Performance</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== GALLERY ====== -->
+  <section id="gallery">
+    <div class="programs-header">
+      <div class="about-label" style="text-align:center">Our Gallery</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,6vw,80px);color:var(--white);margin-bottom:1rem">OUR <span style="color:var(--green)">GALLERY</span> OF WORK</h2>
+      <p style="color:var(--gray);font-size:15px;max-width:500px;margin:0 auto">What does the gallery show? The gallery displays completed work including repairs, performance builds, and detailing results. It provides visual evidence of service quality.</p>
+    </div>
+    <div class="programs-grid">
+      <div class="program-card">
+        <div class="program-img">
+          <img src="gallery-1.jpg" alt="Cylinder heads and camshafts">
+        </div>
+        <div class="program-body">
+          <div class="program-duration">REPAIR</div>
+          <div class="program-name">Cylinder Head Service</div>
+          <div class="program-desc">Precision valve train work and component service for reliable engine operation.</div>
+          <div class="program-meta">
+            <span class="program-spots">Completed</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-card">
+        <div class="program-img">
+          <img src="gallery-2.jpg" alt="ECU tuning equipment and electronics">
+        </div>
+        <div class="program-body">
+          <div class="program-duration">PERFORMANCE</div>
+          <div class="program-name">ECU Tuning Setup</div>
+          <div class="program-desc">High-end tuning hardware ready for engine optimization and performance calibration.</div>
+          <div class="program-meta">
+            <span class="program-spots">Completed</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-card">
+        <div class="program-img">
+          <img src="gallery-3.jpg" alt="Valve spring comparison packs">
+        </div>
+        <div class="program-body">
+          <div class="program-duration">PERFORMANCE</div>
+          <div class="program-name">Spring Upgrade</div>
+          <div class="program-desc">Valve spring selection for improved durability and high RPM performance.</div>
+          <div class="program-meta">
+            <span class="program-spots">Completed</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-card">
+        <div class="program-img">
+          <img src="gallery-4.jpg" alt="Custom exhaust manifold build">
+        </div>
+        <div class="program-body">
+          <div class="program-duration">PERFORMANCE</div>
+          <div class="program-name">Custom Exhaust</div>
+          <div class="program-desc">Fabricated exhaust and intake components built for improved airflow and power delivery.</div>
+          <div class="program-meta">
+            <span class="program-spots">Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="values-section">
+      <div class="section-header">
+        <h2>WHY BEFORE-AND-AFTER <span>MATTERS</span></h2>
+        <p>Before-and-after comparisons show measurable improvements in condition, cleanliness, and finish. This helps users understand the effectiveness of detailing and repair work.</p>
+      </div>
+    </div>
+  </section>
+
+ 
+  <!-- ====== CONTACT ====== -->
+  <section id="contact">
+    <div class="contact-hero">
+      <div>
+        <div class="about-label">Get In Touch</div>
+        <h2
+          style="font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,5vw,70px);color:var(--white);margin-bottom:2rem;line-height:0.95">
+          START YOUR<br><span style="color:var(--green)">JOURNEY</span><br>TODAY</h2>
+        <div class="contact-info">
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="info-label">Location</div>
+              <div class="info-value">Service location depends on the business setup. Customers should confirm location and availability before visiting.</div>
+              <div class="info-sub">Find us on Google Maps</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">🕐</div>
+            <div>
+              <div class="info-label">Hours</div>
+              <div class="info-value">Working hours vary based on workload and service type. It is recommended to confirm timing before scheduling a visit.</div>
+              <div class="info-sub">Contact for availability</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">📱</div>
+            <div>
+              <div class="info-label">Social</div>
+              <div class="info-value">@boondocksperformance</div>
+              <div class="info-sub">Instagram · Facebook · YouTube</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">📧</div>
+            <div>
+              <div class="info-label">Email</div>
+              <div class="info-value">info@boondocksperformance.com</div>
+              <div class="info-sub">We respond within 24 hours</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--dark3);padding:2.5rem;border-top:3px solid var(--green)">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);margin-bottom:2rem">BOOK A
+            FREE QUOTE</h3>
+          <div class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-input" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-input" placeholder="Doe">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" placeholder="john@email.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-input" placeholder="+1 (000) 000-0000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">I'm Interested In</label>
+              <select class="form-select form-input">
+                <option value="">Select a service...</option>
+                <option>Performance Upgrades</option>
+                <option>Repair Services</option>
+                <option>Detailing Services</option>
+                <option>General Service</option>
+                <option>Just exploring</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell Us About Your Goals</label>
+              <textarea class="form-textarea"
+                placeholder="What do you want to achieve? Any issues or modifications we should know about?"></textarea>
+            </div>
+            <button class="btn-primary" style="width:100%;padding:18px;font-size:16px"
+              onclick="alert('Thanks! We\'ll be in touch within 24 hours.')">Book Free Quote →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="social-strip">
+      <div>
+        <h3 class="social-heading">FOLLOW THE <span>WORK</span></h3>
+        <p style="color:var(--gray);font-size:13px;margin-top:4px">Daily updates, project highlights, and vehicle transformations</p>
+      </div>
+      <div class="social-links">
+        <button class="social-btn">Instagram</button>
+        <button class="social-btn">Facebook</button>
+        <button class="social-btn">YouTube</button>
+        <button class="social-btn">TikTok</button>
+      </div>
+    </div>
+    <div class="map-placeholder">
+      <div class="map-inner">
+        <p>BOONDOCKS PERFORMANCE</p>
+        <p style="font-size:14px;color:var(--gray);margin-top:8px">Find us on Google Maps</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <div class="logo-box">BOONDOCKS</div>
+      <div
+        style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--green);letter-spacing:3px;margin-bottom:1rem">
+        PERFORMANCE</div>
+      <p class="footer-desc">Pushing the limits of what's possible. Built for vehicles, welcoming to everyone. Repair well. Perform better.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#" onclick="showPage('home');return false">Home</a></li>
+        <li><a href="#" onclick="showPage('about');return false">About Us</a></li>
+        <li><a href="#" onclick="showPage('services');return false">Services</a></li>
+        <li><a href="#" onclick="showPage('detailing');return false">Detailing</a></li>
+        <li><a href="#" onclick="showPage('performance');return false">Performance</a></li>
+        <li><a href="#" onclick="showPage('gallery');return false">Gallery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#" onclick="showPage('services');return false">Performance Upgrades</a></li>
+        <li><a href="#" onclick="showPage('services');return false">Repair Services</a></li>
+        <li><a href="#" onclick="showPage('detailing');return false">Detailing</a></li>
+        <li><a href="#" onclick="showPage('performance');return false">ECU Tuning</a></li>
+        <li><a href="#" onclick="showPage('performance');return false">Exhaust Systems</a></li>
+      </ul>
+    </div
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul class="contact_footer">
+        <li><a href="#">info@boondocksperformance.com</a></li>
+        <li><a href="#">@boondocksperformance</a></li>
+        <li><a href="#">Mon–Fri: 5am–10pm</a></li>
+        <li><a href="#">Sat–Sun: 7am–6pm</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Boondocks Performance. All rights reserved.</span>
+    <span class="footer-tagline">Repair Well. Perform Better.</span>
+  </div>
+
+  <script>
+    function showPage(id) {
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const pages = ['home', 'about', 'services', 'detailing', 'performance', 'gallery', 'contact'];
+      const idx = pages.indexOf(id);
+      if (idx >= 0) document.querySelectorAll('.nav-links a')[idx].classList.add('active');
+    }
+  </script>
+</body>
+
+</html>
